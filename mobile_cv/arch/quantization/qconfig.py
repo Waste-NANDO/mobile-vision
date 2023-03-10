@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
-
+from typing import Tuple
 import torch
-from torch.ao.quantization.fake_quantize import FakeQuantize
-from torch.ao.quantization.observer import MinMaxObserver
-from torch.ao.quantization.qconfig import QConfig
+TORCH_VERSION: Tuple[int, ...] = tuple(int(x) for x in torch.__version__.split(".")[:2])
+if TORCH_VERSION > (1, 10):
+    from torch.ao.quantization.fake_quantize import FakeQuantize
+    from torch.ao.quantization.observer import MinMaxObserver
+    from torch.ao.quantization.qconfig import QConfig
+else:
+    from torch.quantization.fake_quantize import FakeQuantize
+    from torch.quantization.observer import MinMaxObserver
+    from torch.quantization.qconfig import QConfig
 
 from .observer import (
     FixedMinMaxObserver,

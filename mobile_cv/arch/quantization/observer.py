@@ -3,12 +3,21 @@
 
 from abc import abstractmethod
 
+from typing import Tuple
 import torch
-from torch.ao.quantization.observer import (
-    MinMaxObserver,
-    MovingAverageMinMaxObserver,
-    ObserverBase,
-)
+TORCH_VERSION: Tuple[int, ...] = tuple(int(x) for x in torch.__version__.split(".")[:2])
+if TORCH_VERSION > (1, 10):
+    from torch.ao.quantization.observer import (
+        MinMaxObserver,
+        MovingAverageMinMaxObserver,
+        ObserverBase,
+    )
+else:
+    from torch.quantization.observer import (
+        MinMaxObserver,
+        MovingAverageMinMaxObserver,
+        ObserverBase,
+    )
 
 
 def update_stat(m):
